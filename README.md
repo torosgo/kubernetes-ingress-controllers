@@ -6,7 +6,7 @@ Learn Kubernetes Ingress Controllers by example.
 
 [Create AKS Cluster](aks/README.md)
 
-### Deploy Ratingsapp
+### Deploy Ratings App
 
 [Deploy Ratings App](ratingsapp/README.md)
 
@@ -20,7 +20,7 @@ Learn Kubernetes Ingress Controllers by example.
 
 ### Create HAProxy Ingress Controller
 
-[Create HAProxy](haproxy/README.md)
+[Create HAProxy Ingress](haproxy/README.md)
 
 ### Create Application Gateway Ingress Controller (AGIC)
 
@@ -29,11 +29,12 @@ Learn Kubernetes Ingress Controllers by example.
 
 ## References: 
 
-[AKS Tutorial](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-app)
-[Azure Kubernetes Service Workshop](https://docs.microsoft.com/en-us/learn/modules/aks-workshop/)
-[Nginx Ingress Controlle](https://kubernetes.github.io/ingress-nginx/)
-[Traefik Ingress Controller](https://doc.traefik.io/traefik/providers/kubernetes-ingress/)
-
+[AKS Tutorial](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-prepare-app)  
+[Azure Kubernetes Service Workshop](https://docs.microsoft.com/en-us/learn/modules/aks-workshop/)  
+[Nginx Ingress](https://kubernetes.github.io/ingress-nginx/)  
+[Traefik Ingress](https://doc.traefik.io/traefik/providers/kubernetes-ingress/)  
+[HAProxy Ingress](https://haproxy-ingress.github.io/)    
+[AGIC](https://docs.microsoft.com/en-us/azure/application-gateway/tutorial-ingress-controller-add-on-existing?toc=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fazure%2Faks%2Ftoc.json&bc=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fazure%2Fbread%2Ftoc.json)  
 
 ## Support
 

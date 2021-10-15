@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ratings-web-ingress-traefik
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: ratings-web
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific

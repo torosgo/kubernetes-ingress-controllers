@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ratingsapp-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratingsapp
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ratingsapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 80
+        host: ratings-web

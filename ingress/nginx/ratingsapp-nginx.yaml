@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ratings-web-ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: ratings-web
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific

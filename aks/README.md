@@ -1,13 +1,21 @@
 ### Create AKS Cluster
 
 ```bash
+#// Set environments variables for AKS and save some of them to .env file for reuse
 REGION_NAME=westeurope; echo export REGION_NAME=$REGION_NAME>> .env
 RESOURCE_GROUP=demok8singress; echo export RESOURCE_GROUP=$RESOURCE_GROUP>> .env
 SUBNET_NAME=k8s-subnet
-VNET_NAME=k8s-vnet
+VNET_NAME=k8s-vnet; echo export VNET_NAME=$VNET_NAME>> .env
 VNET_PREFIX=10.0.0.0/8
 SNET_PREFIX=10.240.0.0/16
-
+K8S_CLUSTER_NAME=demok8s-$RANDOM; echo export K8S_CLUSTER_NAME=$K8S_CLUSTER_NAME>> .env
+NODE_CNT=1
+NODE_MINCNT=1
+NODE_MAXCNT=5
+NODE_SIZE=Standard_DS2_v2
+SVCCIDR=10.2.0.0/24
+DNSIP=10.2.0.10
+ACR_NAME=acr$RANDOM; echo export ACR_NAME=$ACR_NAME>> .env
 
 az group create \
     --name $RESOURCE_GROUP \
@@ -34,15 +42,6 @@ VERSION=$(az aks get-versions \
     --output tsv)
 
 # Create K8s Cluster
-K8S_CLUSTER_NAME=demok8s-$RANDOM
-echo export K8S_CLUSTER_NAME=$K8S_CLUSTER_NAME>> .env
-NODE_CNT=1
-NODE_MINCNT=1
-NODE_MAXCNT=5
-NODE_SIZE=Standard_DS2_v2
-SVCCIDR=10.2.0.0/24
-DNSIP=10.2.0.10
-
 
 az aks create \
     --resource-group $RESOURCE_GROUP \
@@ -76,10 +75,7 @@ kubectl get nodes
 
 ### Create ACR and associate with AKS
 
-
 ```bash
-ACR_NAME=acr$RANDOM
-echo export ACR_NAME=$ACR_NAME>> .env
 
 az acr create \
     --resource-group $RESOURCE_GROUP \

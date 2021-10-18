@@ -12,14 +12,17 @@ helm install nginx-ingress ingress-nginx/ingress-nginx \
     --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 kubectl get services --namespace ingress -w
 
+#// Deploy Nginx ingress for ratings app
 kubectl apply \
     --namespace ratingsapp \
     -f ratings-web-ingress-nginx.yaml
 
-#// Get nginx ingress service public ip and open in browser http://<ingressip>
-kubectl get service nginx-ingress-ingress-nginx-controller --namespace ingress|grep LoadBalancer| awk '{print $4}'
+#// Get nginx ingress service public ip and browse
+INGIP=$(kubectl get service nginx-ingress-ingress-nginx-controller --namespace ingress|grep LoadBalancer| awk '{print $4}')
 
-#// delete ingress to stop accepting requests to ratingsapp publicly
+curl -I "http://$INGIP"
+
+#// Delete ingress to stop public access to ratings app
 kubectl delete \
     --namespace ratingsapp \
     -f ratings-web-ingress-nginx.yaml

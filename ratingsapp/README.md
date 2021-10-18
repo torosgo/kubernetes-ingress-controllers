@@ -1,9 +1,7 @@
 ## Deploy Ratings App
 
-
 ```bash
 
-cd ratingsapp
 kubectl create namespace ratingsapp
 
 git clone https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api.git
@@ -36,13 +34,16 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 
 helm search repo bitnami
 
+#// set USR_NAME and USR_PASSWD variables for mongodb
+#// USR_NAME=myuser
+#// USR_PASSWD=mypasswd
 helm install ratings bitnami/mongodb \
     --namespace ratingsapp \
     --set auth.username=$USR_NAME,auth.password=$USR_PASSWD,auth.database=ratingsdb
 
 ```
  
-OUTPUT similar like:
+OUTPUT will be similar like below:
 ```bash
 NAME: ratings
 LAST DEPLOYED: Tue Oct 12 17:19:30 2021
@@ -124,12 +125,12 @@ kubectl apply \
 
 kubectl get service ratings-web --namespace ratingsapp -w
 
-#// delete loadbalancer service to stop accepting requests to public endpoint
+#// Delete loadbalancer service to stop public access to ratings app
 kubectl delete \
     --namespace ratingsapp \
     -f ratings-web-service.yaml
 
-#// create private svc for ingress
+#// Create private service to be used as backend endpoint for ingress controllers
 kubectl apply \
     --namespace ratingsapp \
     -f ratings-web-service-pri.yaml

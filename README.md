@@ -18,7 +18,7 @@ Learn Kubernetes Ingress Controllers by example.
 
 [Create Traefik Ingress](traefik/README.md)
 
-### Create HAProxy Ingress Controller
+### Create HAProxy Ingress
 
 [Create HAProxy Ingress](haproxy/README.md)
 

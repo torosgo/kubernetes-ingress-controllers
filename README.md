@@ -2,29 +2,31 @@
 
 Learn Kubernetes Ingress Controllers by example.
 
-### Create a Kubernetes Cluster
+## Create a Kubernetes Cluster
 
 [Create AKS Cluster](aks/README.md)
 
-### Deploy Ratings App
+## Deploy an Application
 
-[Deploy Ratings App](ratingsapp/README.md)
+[Deploy Ratings App](apps/ratingsapp/README.md)
 
-### Create Nginx Ingress
+## Create an Ingress Controller
 
-[Create Nginx Ingress](nginx/README.md)
+#### >> Create Nginx Ingress
 
-### Create Traefik Ingress
+[Create Nginx Ingress](ingress/nginx/README.md)
 
-[Create Traefik Ingress](traefik/README.md)
+#### >> Create Traefik Ingress
 
-### Create HAProxy Ingress
+[Create Traefik Ingress](ingress/traefik/README.md)
 
-[Create HAProxy Ingress](haproxy/README.md)
+#### >> Create HAProxy Ingress
 
-### Create Application Gateway Ingress Controller (AGIC)
+[Create HAProxy Ingress](ingress/haproxy/README.md)
 
-[Create AGIC](agic/README.md)
+#### >> Create Application Gateway Ingress Controller (AGIC)
+
+[Create AGIC](ingress/agic/README.md)
 
 
 ## References: 
@@ -38,7 +40,7 @@ Learn Kubernetes Ingress Controllers by example.
 
 ## Support
 
-No SLA. Continuous development. Use at your own risk. Please read License
+No SLA. Continuous development. Use at your own risk. Please read License.
 
 ## Contribution
 

@@ -1,14 +1,13 @@
 # Setup Azure Container Registry
 
 Using this Setup you can:
-- Deploy ACR and associate with AKS
+- Deploy ACR
 - Get ACR information
 - Delete ACR
 
 **Requirements**
 - Azure subscription
 - Landing Zone
-- AKS
 - Azure CLI - az
 - Environment Variables
 
@@ -16,8 +15,8 @@ Using this Setup you can:
 # Required Environment Variables
 # Define if not defined or override the values of required environments variables.
 # You can write them in a file and run "source ${filename}" for reuse.
-export K8S_CLUSTER_NAME=demok8s-ingress
-export RESOURCE_GROUP=demok8singress
+
+export RESOURCE_GROUP=demok8singress # AKS resource group
 export REGION_NAME=westeurope
 export ACR_NAME=acr123ZYX #
 export RESOURCE_GROUP_ACR=${RESOURCE_GROUP}

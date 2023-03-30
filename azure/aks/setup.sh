@@ -24,7 +24,12 @@ usage() {
 }
 
 deploy() {
-    check_vars K8S_CLUSTER_NAME RESOURCE_GROUP REGION_NAME NODE_CNT NODE_MINCNT NODE_MAXCNT NODE_SIZE SVCCIDR DNSIP
+    check_vars K8S_CLUSTER_NAME RESOURCE_GROUP REGION_NAME NODE_CNT NODE_MINCNT NODE_MAXCNT NODE_SIZE SVCCIDR DNSIP ACR_NAME INGRESS_NAME
+    whatifagic=""
+    if [[ $INGRESS_NAME == "agic" ]]; then
+        check_vars APPGW_NAME APPGW_SNET_PREFIX
+        whatifagic=$(echo "-a ingress-appgw --appgw-name $APPGW_NAME --appgw-subnet-cidr $APPGW_SNET_PREFIX")
+    fi
     az_login
     set -euxo pipefail
 
@@ -61,11 +66,13 @@ deploy() {
         --docker-bridge-address 172.17.0.1/16 \
         --generate-ssh-keys \
         --network-policy calico \
-        --yes
+        --attach-acr $ACR_NAME \
+        --yes $whatifagic
 
     az aks get-credentials \
         --resource-group $RESOURCE_GROUP \
-        --name $K8S_CLUSTER_NAME
+        --name $K8S_CLUSTER_NAME \
+        --overwrite-existing
 }
 
 status() {

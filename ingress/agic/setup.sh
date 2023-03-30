@@ -36,14 +36,16 @@ usage() {
     echo
 }
 
+# deployctl is deprecated because agic addon is enabled during AKS installation
 deployctl() {
     check_vars APPGW_NAME RESOURCE_GROUP K8S_CLUSTER_NAME 
     az_login
     set -euxo pipefail
 
-    appgwId=$(az network application-gateway show -n $APPGW_NAME -g $RESOURCE_GROUP -o tsv --query "id") 
+    # appgwId=$(az network application-gateway show -n $APPGW_NAME -g $RESOURCE_GROUP -o tsv --query "id") 
     #// Enable ingress-appgw addon for AKS with AppGW id
-    az aks enable-addons -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP -a ingress-appgw --appgw-id $appgwId
+    #az aks enable-addons -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP -a ingress-appgw --appgw-id $appgwId
+    az aks addon show -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP -a ingress-appgw
 }
 
 deployingress() {
@@ -78,7 +80,9 @@ statusctl() {
     check_vars RESOURCE_GROUP
     az_login   
     set -euxo pipefail
+    az aks addon show -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP -a ingress-appgw
     az aks list -g $RESOURCE_GROUP -o json | jq -r '.[].addonProfiles.ingressApplicationGateway'
+    #az network public-ip show -g $RESOURCE_GROUP -n appgwPublicIp --query "{fqdn: dnsSettings.fqdn,address: ipAddress}"
 }
 
 statusingress() {

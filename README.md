@@ -26,7 +26,7 @@ git clone https://github.com/torosgo/kubernetes-ingress-controllers
 cp .env.example .env
 edit .env
 
-## Deploy  Landing Zone, AKS cluster, ACR, AppGW, Application, Ingress Controller
+## Deploy  Landing Zone, ACR, AKS cluster, AppGW, Application, Ingress Controller
 make all
 
 ## Browse the app through public ip of ingress (http://INGRESSIP)
@@ -43,8 +43,8 @@ make erase
 1. [Clone this repository](#clone-this-repository)
 2. [Edit configuration file](#edit-configuration-file)
 3. [Deploy Landing Zone (Resource Group, VNET, SUBNET)](#deploy-landing-zone)
-4. [Deploy AKS cluster](#deploy-aks-cluster)
-5. [Deploy ACR](#deploy-acr)
+4. [Deploy ACR](#deploy-acr)
+5. [Deploy AKS cluster](#deploy-aks-cluster)
 6. [Deploy AppGW](#deploy-appgw)
 7. [Deploy Application](#deploy-application)
 8. [Deploy Ingress Controller](#deploy-ingress-controller)
@@ -76,21 +76,6 @@ make azure/landingzone/status
 ```
 [README: Setup Landing Zone](azure/landingzone/README.md)
 
-### Deploy AKS Cluster
-
-You can deploy a new AKS cluster using the following 
-```bash
-## Deploy AKS cluster
-make azure/aks/deploy
-
-## You can answer "y" if you get a quesion like: "proceed to create cluster with system assigned identity? (y/N):"
-
-## Review cluster info
-make azure/aks/status
-
-```
-[README: Setup AKS Cluster Setup](azure/aks/README.md)
-
 ### Deploy ACR
 
 You can create a new ACR using the following 
@@ -103,9 +88,31 @@ make azure/acr/status
 ```
 [README: Setup ACR](azure/acr/README.md)
 
+### Deploy AKS Cluster
+
+You can deploy a new AKS cluster and attach the ACR (and optionally AppGW) using the following 
+```bash
+## Deploy AKS cluster
+make azure/aks/deploy
+
+## You can answer "y" if you get a quesion like: "proceed to create cluster with system assigned identity? (y/N):"
+
+## Review cluster info
+make azure/aks/status
+
+```
+If you want a new AppGW to be deployed automatically while AKS deployment, you can do easily only by setting env ingress variables for AGIC in the env.example file:
+```bash
+export INGRESS_NAME=agic
+export APPGW_NAME=demoingress-appgw
+export APPGW_SNET_PREFIX=10.241.0.0/16
+```
+
+[README: Setup AKS Cluster Setup](azure/aks/README.md)
+
 ### Deploy AppGW
 
-You can deploy a new ACR and atatch to AKS using the following 
+AppGW can be deployed within AKS cluster deployment but if you want to deploy a new AppGW separately, you can do using the following 
 ```bash
 ## Deploy AppGW
 make azure/appgw/deploy
@@ -181,11 +188,11 @@ make apps/ratingsapp/erasens
 ## Delete AppGW
 make azure/appgw/erase
 
-## Delete ACR
-make azure/acr/erase
-
 ## Delete AKS
 make azure/aks/erase
+
+## Delete ACR
+make azure/acr/erase
 
 ## Delete Landing Zone
 make azure/landingzone/erase

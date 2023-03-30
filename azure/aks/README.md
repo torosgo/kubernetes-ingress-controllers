@@ -9,6 +9,7 @@ Using this Setup you can:
 **Requirements**
 - Azure subscription
 - Landing Zone
+- ACR
 - Azure CLI - az
 - Environment Variables
 
@@ -34,6 +35,7 @@ export NODE_MAXCNT=5
 export NODE_SIZE=Standard_DS2_v2
 export SVCCIDR=10.2.0.0/24
 export DNSIP=10.2.0.10
+export ACR_NAME=acr123ZYX
 # 
 # Set Azure login method
 # Options: interactive, device, serviceprincipal, managedidentity

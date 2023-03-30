@@ -24,7 +24,7 @@ usage() {
 }
 
 deploy() {
-    check_vars RESOURCE_GROUP_ACR REGION_NAME ACR_NAME K8S_CLUSTER_NAME RESOURCE_GROUP
+    check_vars RESOURCE_GROUP_ACR REGION_NAME ACR_NAME RESOURCE_GROUP
     az_login
     set -euxo pipefail
     
@@ -34,10 +34,7 @@ deploy() {
         --name $ACR_NAME \
         --sku Standard
 
-    az aks update \
-        --name $K8S_CLUSTER_NAME \
-        --resource-group $RESOURCE_GROUP \
-        --attach-acr $ACR_NAME
+    # az aks update --name $K8S_CLUSTER_NAME --resource-group $RESOURCE_GROUP --attach-acr $ACR_NAME
 }
 
 status() {
@@ -48,10 +45,10 @@ status() {
 }
 
 erase() {
-    check_vars K8S_CLUSTER_NAME RESOURCE_GROUP ACR_NAME RESOURCE_GROUP_ACR
+    check_vars RESOURCE_GROUP ACR_NAME RESOURCE_GROUP_ACR
     az_login
     set -euxo pipefail
-    az aks update -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP --detach-acr $ACR_NAME
+    # az aks update -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP --detach-acr $ACR_NAME
     az acr delete -n $ACR_NAME -g $RESOURCE_GROUP_ACR
 }
 

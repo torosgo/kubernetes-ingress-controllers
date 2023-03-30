@@ -51,6 +51,7 @@ chmod +x ./setup.sh
 ./setup.sh help
 
 ## Deploy Ingress controller
+# deployctl is deprecated because agic addon is enabled during AKS installation
 ./setup.sh deployctl
 
 ## Deploy Ingress for app

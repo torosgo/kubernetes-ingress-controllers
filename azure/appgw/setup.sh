@@ -31,7 +31,7 @@ deploy() {
     #// Create public ip,subnet amd AppGW: 
     az network public-ip create -n appgwPublicIp -g $RESOURCE_GROUP  --allocation-method Static --sku Standard
     az network vnet subnet create -n appgwSubnet -g $RESOURCE_GROUP --vnet-name $VNET_NAME --address-prefixes $APPGW_SNET_PREFIX 
-    az network application-gateway create -n $APPGW_NAME -l $REGION_NAME -g $RESOURCE_GROUP --sku Standard_v2 --public-ip-address appgwPublicIp --vnet-name $VNET_NAME --subnet appgwSubnet
+    az network application-gateway create -n $APPGW_NAME -l $REGION_NAME -g $RESOURCE_GROUP --sku Standard_v2 --public-ip-address appgwPublicIp --vnet-name $VNET_NAME --subnet appgwSubnet --priority 1001
 }
 
 status() {
@@ -39,13 +39,14 @@ status() {
     az_login
     set -euxo pipefail
     az network application-gateway show -g $RESOURCE_GROUP -n $APPGW_NAME 
+    az network public-ip show -g $RESOURCE_GROUP -n appgwPublicIp --query "{fqdn: dnsSettings.fqdn,address: ipAddress}"
 }
 
 erase() {
     check_vars APPGW_NAME RESOURCE_GROUP
     az_login
     set -euxo pipefail
-    az network application-gateway delete -g $RESOURCE_GROUP -n $APPGW_NAME 
+    az network application-gateway delete -g $RESOURCE_GROUP -n $APPGW_NAME
 }
 
 # az login

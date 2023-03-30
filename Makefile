@@ -41,9 +41,9 @@ help: ## This help
 	@echo "$(BINCOLOR)Example: Step by step deployment$(ENDCOLOR)"
 	@echo "  cp .env.example .env && edit .env"
 	@echo "  make azure/landingzone/deploy"
-	@echo "  make azure/aks/deploy"
+#	@echo "  make azure/appgw/deploy"
 	@echo "  make azure/acr/deploy"
-	@echo "  make azure/appgw/deploy"
+	@echo "  make azure/aks/deploy"
 	@echo "  make apps/APP_NAME/deployns"
 	@echo "  make ingress/INGRESS_NAME/deployctl"
 	@echo "  make ingress/INGRESS_NAME/deployingress"
@@ -72,5 +72,5 @@ apps/%: $(ENV_FILE) ## path/to/folder/action
 ingress/%: $(ENV_FILE) ## path/to/folder/action
 	@$(resetup)
 
-all: azure/landingzone/deploy azure/aks/deploy azure/acr/deploy azure/appgw/deploy apps/$(APP_NAME)/deployns ingress/$(INGRESS_NAME)/deployctl ingress/$(INGRESS_NAME)/deployingress apps/$(APP_NAME)/deployapp ## Deploy Landing Zone, AKS cluster, ACR, AppGW, Application, Ingress Controller
+all: azure/landingzone/deploy azure/acr/deploy azure/aks/deploy apps/$(APP_NAME)/deployns ingress/$(INGRESS_NAME)/deployctl ingress/$(INGRESS_NAME)/deployingress apps/$(APP_NAME)/deployapp ## Deploy Landing Zone, ACR, AKS cluster, AppGW, Ingress Controller, Application
 erase: azure/landingzone/erase ## Erase Resource Group and everything in it

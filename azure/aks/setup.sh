@@ -8,6 +8,7 @@ main() {
         deploy) deploy;;
         status) status;;
         erase) erase;;
+        erasectx) erasectx;;
         *) usage;;
     esac    
 }
@@ -20,6 +21,7 @@ usage() {
     echo -e "  deploy"
     echo -e "  status"
     echo -e "  erase"
+    echo -e "  erasectx"
     echo
 }
 
@@ -37,12 +39,12 @@ deploy() {
         --resource-group $RESOURCE_GROUP \
         --vnet-name $VNET_NAME \
         --name $SUBNET_NAME \
-        --query id -o tsv)
+        --query id -o tsv  | tr -d '\r' | tr -d '$')
 
     VERSION=$(az aks get-versions \
         --location $REGION_NAME \
-        --query 'orchestrators[?!isPreview] | [-1].orchestratorVersion' \
-        --output tsv)
+        --query 'values[?isDefault  == `true`].version' \
+        --output tsv | tr -d '\r' | tr -d '$')
 
     # Create K8s Cluster
 
@@ -63,7 +65,6 @@ deploy() {
         --vnet-subnet-id $SUBNET_ID \
         --service-cidr $SVCCIDR \
         --dns-service-ip $DNSIP \
-        --docker-bridge-address 172.17.0.1/16 \
         --generate-ssh-keys \
         --network-policy calico \
         --attach-acr $ACR_NAME \
@@ -72,7 +73,10 @@ deploy() {
     az aks get-credentials \
         --resource-group $RESOURCE_GROUP \
         --name $K8S_CLUSTER_NAME \
-        --overwrite-existing
+        --overwrite-existing \
+        -f ~/.kube/config.$K8S_CLUSTER_NAME
+    KUBECONFIG=${KUBECONFIG:-~/.kube/config}::$HOME/.kube/config.$K8S_CLUSTER_NAME kubectl config view --merge --flatten > ~/.kube/merged_kubeconfig && mv ~/.kube/merged_kubeconfig ~/.kube/config 
+
 }
 
 status() {
@@ -87,6 +91,14 @@ erase() {
     az_login
     set -euxo pipefail
     az aks delete -n $K8S_CLUSTER_NAME -g $RESOURCE_GROUP
+}
+
+erasectx() {
+    check_vars K8S_CLUSTER_NAME RESOURCE_GROUP
+    set -euxo pipefail
+    kubectl config delete-cluster $K8S_CLUSTER_NAME
+    kubectl config delete-user clusterUser_${K8S_CLUSTER_NAME}_${RESOURCE_GROUP}
+    kubectl config delete-context $K8S_CLUSTER_NAME
 }
 
 # az login

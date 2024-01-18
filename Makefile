@@ -71,6 +71,8 @@ apps/%: $(ENV_FILE) ## path/to/folder/action
 	@$(resetup)
 ingress/%: $(ENV_FILE) ## path/to/folder/action
 	@$(resetup)
+sleep: 
+	sleep 10
 
-all: azure/landingzone/deploy azure/acr/deploy azure/aks/deploy apps/$(APP_NAME)/deployns ingress/$(INGRESS_NAME)/deployctl ingress/$(INGRESS_NAME)/deployingress apps/$(APP_NAME)/deployapp ## Deploy Landing Zone, ACR, AKS cluster, AppGW, Ingress Controller, Application
+all: azure/landingzone/deploy azure/acr/deploy azure/aks/deploy apps/$(APP_NAME)/deployns ingress/$(INGRESS_NAME)/deployctl ingress/$(INGRESS_NAME)/deployingress sleep apps/$(APP_NAME)/deployapp ## Deploy Landing Zone, ACR, AKS cluster, AppGW, Ingress Controller, Application
 erase: azure/landingzone/erase ## Erase Resource Group and everything in it

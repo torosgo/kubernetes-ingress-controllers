@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: ratings-web-ingress-nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
